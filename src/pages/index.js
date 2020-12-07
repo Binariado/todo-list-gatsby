@@ -15,7 +15,8 @@ import {
   Tabs,
   Tab,
   AppBar,
-  Grid
+  Grid,
+  useMediaQuery
 } from '@material-ui/core';
 import { sizing } from '@material-ui/system';
 import { useSelector } from "react-redux";
@@ -40,16 +41,37 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column"
   },
+  paperTodo: {
+    padding: theme.spacing(2),
+    //textAlign: 'center',
+    color: theme.palette.text.secondary,
+    height: "100%",
+    maxHeight: "100%",
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    borderRadius: "20px",
+    boxShadow: "0px 0px 8px -2px #ccc"
+  },
   conteS: {
     height: "100%",
     width: "100%",
 
   },
-  conteBox:{
+  conteBox: {
     height: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center"
+  },
+  tabs: {
+    position: "fixed",
+    bottom: "0",
+    left: "0",
+    right: "0",
+    marginBottom: "10px",
+    width: "100%",
+    zIndex: "111111",
   }
 }));
 
@@ -94,6 +116,7 @@ function a11yProps(index) {
 
 export default function Home() {
   const classes = useStyles();
+  const matches = useMediaQuery('(min-width:1030px)');
   const userState = useSelector(stateUser);
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -102,33 +125,47 @@ export default function Home() {
     setValue(newValue);
   };
 
+  console.log(matches);
+
 
   return (
     <Layout>
       <Grid container spacing={3}>
-        <Grid item xs={8}>
-          <Paper className={classes.paper}>
+        <Grid item xs={matches ? 8 : 12} style={{ maxHeight: "100%" }}>
+          <div className={classes.paper}>
+            <TabPanel value={value} index={0}>
+              {matches ?
+                <DatePicker />
+                :
+                <TodoView />
+              }
+            </TabPanel>
+
+            <TabPanel value={value} index={1}>
+              Item Two
+            </TabPanel>
+
             <Tabs
               value={value}
               onChange={handleChange}
               indicatorColor="primary"
               textColor="primary"
               centered
+              className={matches ? '' : classes.tabs}
             >
               <Tab label="Item One" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(0)}/>
+              <Tab label="Item Two" {...a11yProps(0)} />
             </Tabs>
-
-            <TabPanel  value={value} index={0}>
-              <DatePicker />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              Item Two
-            </TabPanel>
-
-          </Paper>
+          </div>
         </Grid>
-        <TodoView></TodoView>
+        {matches && (
+          <Grid item xs={4} style={{ maxHeight: "100%" }}>
+            <Paper elevation={0} id={"paper-todo"}
+              className={classes.paperTodo}>
+              <TodoView></TodoView>
+            </Paper>
+          </Grid>
+        )}
       </Grid>
     </Layout>
   )

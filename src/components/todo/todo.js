@@ -15,15 +15,16 @@ import 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
+  },
+  paperTodo: {
     padding: theme.spacing(2),
     //textAlign: 'center',
     color: theme.palette.text.secondary,
     height: "100%",
     maxHeight: "100%",
     display: "flex",
-    flexDirection: "column"
-  },
-  paperTodo: {
+    flexDirection: "column",
+    width: "100%",
     borderRadius: "20px",
     boxShadow: "0px 0px 8px -2px #ccc"
   },
@@ -50,7 +51,8 @@ const TodoComponetnStyle = styled.div(
   {
     display: "flex",
     flexDirection: "column",
-    height: "100%"
+    height: "100%",
+    width: "100%",
   },
   props => {
   }
@@ -61,29 +63,22 @@ export default function Home() {
   const userState = useSelector(stateUser);
 
   return (
-    <Grid item xs={4} style={{ maxHeight: "100%" }}>
-      <Paper elevation={0} id={"paper-todo"}
-        className={clsx(classes.paper, {
-          [classes.paperTodo]: true,
-        })}>
-        <TodoComponetnStyle>
-          <AppBarTodo id={"appBarTodo"} />
-          <Typography id={"typog-name-user"} gutterBottom className={classes.name}>
-            Hola, Brayan
-          <Typography variant="caption" display="block" gutterBottom>
-              Estas son tus tareas de hoy
-          </Typography>
-          </Typography>
-          <Box className={classes.contentTodo}>
-            <TodoReviewCard></TodoReviewCard>
-            <TodoReviewCard></TodoReviewCard>
-            <TodoReviewCard></TodoReviewCard>
-            <TodoReviewCard></TodoReviewCard>
-            <TodoReviewCard></TodoReviewCard>
-            <TodoReviewCard></TodoReviewCard>
-          </Box>
-        </TodoComponetnStyle>
-      </Paper>
-    </Grid>
+    <TodoComponetnStyle>
+      <AppBarTodo id={"appBarTodo"} />
+      <Typography id={"typog-name-user"} gutterBottom className={classes.name}>
+        Hola, Brayan
+    <Typography variant="caption" display="block" gutterBottom>
+          Estas son tus tareas de hoy
+    </Typography>
+      </Typography>
+      <Box className={classes.contentTodo}>
+        <TodoReviewCard></TodoReviewCard>
+        <TodoReviewCard></TodoReviewCard>
+        <TodoReviewCard></TodoReviewCard>
+        <TodoReviewCard></TodoReviewCard>
+        <TodoReviewCard></TodoReviewCard>
+        <TodoReviewCard></TodoReviewCard>
+      </Box>
+    </TodoComponetnStyle>
   )
 }
